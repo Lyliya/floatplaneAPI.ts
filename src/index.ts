@@ -35,7 +35,7 @@ export class Floatplane {
 	public creator: Creator;
 	public cdn: CDN;
 	public content: Content;
-	constructor(cookieJar?: CookieJar, userAgent?: string) {
+	constructor(cookieJar?: CookieJar, userAgent?: string, domain?: string) {
 		cookieJar ??= new CookieJar();
 		if (userAgent !== undefined) headers["User-Agent"] = userAgent;
 		this.got = got.extend({
@@ -46,12 +46,12 @@ export class Floatplane {
 				limit: 5, // Maximum number of retries
 			},
 		});
-		this.auth = new Auth(this.got);
-		this.user = new User(this.got);
-		this.api = new Api(this.got);
-		this.creator = new Creator(this.got);
-		this.cdn = new CDN(this.got);
-		this.content = new Content(this.got);
+		this.auth = new Auth(this.got, domain);
+		this.user = new User(this.got, domain);
+		this.api = new Api(this.got, domain);
+		this.creator = new Creator(this.got, domain);
+		this.cdn = new CDN(this.got, domain);
+		this.content = new Content(this.got, domain);
 	}
 
 	public extend(...params: Parameters<typeof got.extend>) {
